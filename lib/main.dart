@@ -1,17 +1,49 @@
 import 'package:flutter/material.dart';
+import "constants.dart";
+import "home.dart";
 
 void main() {
   // 1
-  runApp(const Yummy());
+  runApp(Yummy());
 }
 
-class Yummy extends StatelessWidget {
-  // TODO: Setup default theme
+class Yummy extends StatefulWidget {
 
-  // 2
-  const Yummy({super.key});
+  Yummy({super.key});
+
+  @override
+  State<Yummy> createState() => _YummyState();
+}
+
+class _YummyState extends State<Yummy> {
+  // TODO: Setup default theme
+  ThemeMode themeMode = ThemeMode.light;
+  // Manual theme toggle
+  ColorSelection colorSelected = ColorSelection.pink;
 
   // TODO: Add changeTheme above here
+  void changeThemeMode(bool useLightMode){
+    setState((){
+      // 1 FIXME: Refactor this ternary operator into an if/else statement
+      themeMode = useLightMode
+      ? ThemeMode.light //
+      : ThemeMode.dark;
+
+      // if(useLightMode){
+      //   themeMode = ThemeMode.light;
+      // }else{
+      //   themeMode = ThemeMode.dark;
+      // }
+
+    });
+  }
+
+  void changeColor(int value){
+    setState((){
+      // 2
+      colorSelected = ColorSelection.values[value];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,26 +57,24 @@ class Yummy extends StatelessWidget {
       //debugShowCheckedModeBanner: false, // Uncomment to remove Debug banner
 
       // TODO: Add theme
-
-      // TODO: Apply Home widget
-
-      // 4
-      home: Scaffold(
-        appBar: AppBar(
-          // TODO: Add action buttons
-          elevation: 4.0,
-          title: const Text(
-            appTitle,
-            style: TextStyle(fontSize: 24.0),
-          ),
-        ),
-        body: const Center(
-          child: Text(
-            'You Hungry?😋',
-            style: TextStyle(fontSize: 30.0),
-          ),
-        ),
+      themeMode: themeMode,
+      theme: ThemeData(
+        colorSchemeSeed: colorSelected.color,
+        useMaterial3: true,
+        brightness: Brightness.light,
       ),
+      darkTheme: ThemeData(
+        colorSchemeSeed: colorSelected.color,
+        useMaterial3: true,
+        brightness: Brightness.dark
+      ),
+      // TODO: Apply Scaffold with Home widget
+      // 4
+      home: Home(
+        changeTheme: changeThemeMode,
+        changeColor: changeColor,
+        colorSelected: colorSelected
+      )
     );
   }
 }
