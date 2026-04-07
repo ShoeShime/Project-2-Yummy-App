@@ -3,6 +3,12 @@ import "components/theme_button.dart";
 import "components/color_button.dart";
 import "constants.dart";
 
+import "components/category_card.dart";
+import "models/food_category.dart";
+
+import "components/post_card.dart";
+import "models/post.dart";
+
 class Home extends StatefulWidget{
   const Home({
     super.key,
@@ -49,10 +55,26 @@ class _HomeState extends State<Home>{
     // TODO: Define pages
     final pages = [
       // TODO: Replace with Category Card
-      Container(color: Colors.red),
+      Center(
+          child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxWidth: 300,
+              ),
+              child: CategoryCard(
+                category: categories[0]
+              ),
+          ),
+      ),
       // TODO: Replace with Post Card
-      Container(color: Colors.green),
-      // TODO: Repalce with Restaurant Card
+      Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: PostCard(
+            post: posts[0]
+          ),
+        ),
+      ),
+      // TODO: Replace with Restaurant Card
       Container(color: Colors.blue)
     ];
 
